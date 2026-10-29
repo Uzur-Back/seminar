@@ -16,6 +16,12 @@ def update_base_label(event):
     base_label.config(text=name)
 
 
+def update_base2_label(event):
+    code = base2_combobox.get()
+    name = currencies[code]
+    base2_label.config(text=name)
+
+
 def exchange():
     target_code = target_combobox.get().strip()
     base_code = base_combobox.get().strip()
@@ -54,27 +60,33 @@ currencies = {
 }
 
 root = Tk()
-root.title('Курс обмена валют к USD')
-root.geometry('360x180')
+root.title('Курсы обмена валют')
+root.geometry('320x300')
 
 Label(root, text='Базовая валюта').pack()
 base_combobox = ttk.Combobox(root, values=list(currencies.keys()))
-base_combobox.pack(padx=10, pady=3)
+base_combobox.pack(padx=10, pady=5)
 base_combobox.bind('<<ComboboxSelected>>', update_base_label)
 base_label = ttk.Label()
 base_label.pack()
 
-Label(text='Целевая валюта').pack(padx=10, pady=3)
+Label(text='Вторая базовая валюта').pack(padx=10, pady=(15,0))
+base2_combobox = ttk.Combobox(root, values=list(currencies.keys()))
+base2_combobox.pack(padx=10, pady=5)
+base2_combobox.bind('<<ComboboxSelected>>', update_base2_label)
+base2_label = ttk.Label()
+base2_label.pack()
 
+Label(text='Целевая валюта').pack(padx=10, pady=(15,0))
 target_combobox = ttk.Combobox(root, values=list(currencies.keys()))
-target_combobox.pack(padx=10, pady=3)
+target_combobox.pack(padx=10, pady=5)
 target_combobox.bind('<<ComboboxSelected>>', update_currency_label)
 
 target_label = ttk.Label()
 target_label.pack()
 
 Button(text='Получить курс обмена валют',
-       command=exchange).pack(pady=3)
+       command=exchange).pack(pady=5)
 
 root.mainloop()
 
