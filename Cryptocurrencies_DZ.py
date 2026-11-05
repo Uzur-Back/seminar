@@ -11,11 +11,25 @@ def update_currency_label(event):
 
 
 def price():
-    pass
+    target_code = target_combobox.get().strip()
+    if target_code:
+        try:
+            resp = requests.get(f'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&symbols={target_code}',
+                                timeout=10)
+            resp.raise_for_status()
+            data = resp.json()
+            exchange_rate = data[0]['current_price']
+            target = currencies[target_code]
+            mb.showinfo('Курс обмена', f'Курс:\n{exchange_rate:.1f} {target} за 1 USD')
+        except Exception as e:
+            mb.showerror('Ошибка', f'Произошла ошибка при запросе курса валют: {e}')
+    else:
+        mb.showwarning('Внимание', 'Выберите код валюты')
 
 
 currencies = {
-
+    'BTC': 'Bitcoin',
+    'ETH': 'Ethereum',
 }
 
 root = Tk()
