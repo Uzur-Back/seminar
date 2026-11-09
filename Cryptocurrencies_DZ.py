@@ -14,13 +14,16 @@ def price():
     target_code = target_combobox.get().strip()
     if target_code:
         try:
+            if target_code not in currencies:
+                mb.showwarning('Внимание', 'Выберите валюту из списка')
+                return
             resp = requests.get(f'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&symbols={target_code}',
                                 timeout=10)
             resp.raise_for_status()
             data = resp.json()
             exchange_rate = data[0]['current_price']
             target = currencies[target_code]
-            mb.showinfo('Курс обмена', f'Курс:\n{exchange_rate:.1f} {target} за 1 USD')
+            mb.showinfo('Курс обмена', f'Текущий курс:\n{exchange_rate:.4f} {target} за 1 USD')
         except Exception as e:
             mb.showerror('Ошибка', f'Произошла ошибка при запросе курса валют: {e}')
     else:
@@ -30,6 +33,16 @@ def price():
 currencies = {
     'BTC': 'Bitcoin',
     'ETH': 'Ethereum',
+    'USDT': 'Tether',
+    'LTC': 'Litecoin',
+    'SOL': 'Solana',
+    'TON': 'Toncoin',
+    'DOGE': 'Dogecoin',
+    'BNB': 'BNB',
+    'TRX': 'TRON',
+    'ADA': 'Cardano',
+    'LINK': 'Chainlink',
+    'XMR': 'Monero'
 }
 
 root = Tk()
