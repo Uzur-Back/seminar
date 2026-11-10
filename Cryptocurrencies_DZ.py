@@ -23,7 +23,7 @@ def price():
             data = resp.json()
             exchange_rate = data[0]['current_price']
             target = currencies[target_code]
-            mb.showinfo('Курс обмена', f'Текущий курс:\n{exchange_rate:.4f} {target} за 1 USD')
+            mb.showinfo('Курс обмена', f'Текущий курс:\n{exchange_rate:.4f} USD за 1 {target}')
         except Exception as e:
             mb.showerror('Ошибка', f'Произошла ошибка при запросе курса валют: {e}')
     else:
